@@ -1,0 +1,6 @@
+﻿<ul class="dropdown-menu">
+    @foreach (var item in ViewBag.QuyenHan)
+    {
+        <li><a href="@Url.Action("Index", "NguoiDungs", new { QuyenHan=item.Key})">@item.Value</a></li>
+    }
+</ul>

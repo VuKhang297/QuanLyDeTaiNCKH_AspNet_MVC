@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NCKHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DeTai">
+    <Key>
+      <PropertyRef Name="MaDeTai" />
+    </Key>
+    <Property Name="MaDeTai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoaiDeTai" Type="int" Nullable="false" />
+    <Property Name="TenDeTai" Type="nchar" MaxLength="200" Nullable="false" />
+    <Property Name="SinhVien" Type="int" Nullable="false" />
+    <Property Name="GiangVien" Type="int" Nullable="false" />
+    <Property Name="MoTa" Type="text" />
+    <Property Name="TienDo" Type="text" />
+    <Property Name="KetQua" Type="text" />
+  </EntityType>
+  <EntityType Name="LoaiDeTai">
+    <Key>
+      <PropertyRef Name="MaLoai" />
+    </Key>
+    <Property Name="MaLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenLoai" Type="nchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Lop">
+    <Key>
+      <PropertyRef Name="MaLop" />
+    </Key>
+    <Property Name="MaLop" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenLop" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NguoiDung">
+    <Key>
+      <PropertyRef Name="MaNguoiDung" />
+    </Key>
+    <Property Name="MaNguoiDung" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenNguoiDung" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="TaiKhoan" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="MatKhau" Type="nchar" MaxLength="200" Nullable="false" />
+    <Property Name="QuyenHan" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="NgayGiaNhap" Type="date" />
+    <Property Name="CMND" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Lop" Type="int" />
+    <Property Name="NgaySinh" Type="date" Nullable="false" />
+    <Property Name="QueQuan" Type="nchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="fk_DeTai_GiangVien">
+    <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="1" />
+    <End Role="DeTai" Type="Self.DeTai" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NguoiDung">
+        <PropertyRef Name="MaNguoiDung" />
+      </Principal>
+      <Dependent Role="DeTai">
+        <PropertyRef Name="GiangVien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_DeTai_LoaiDeTai">
+    <End Role="LoaiDeTai" Type="Self.LoaiDeTai" Multiplicity="1" />
+    <End Role="DeTai" Type="Self.DeTai" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiDeTai">
+        <PropertyRef Name="MaLoai" />
+      </Principal>
+      <Dependent Role="DeTai">
+        <PropertyRef Name="LoaiDeTai" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_DeTai_SinhVien">
+    <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="1" />
+    <End Role="DeTai" Type="Self.DeTai" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NguoiDung">
+        <PropertyRef Name="MaNguoiDung" />
+      </Principal>
+      <Dependent Role="DeTai">
+        <PropertyRef Name="SinhVien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_SinhVien_Lop">
+    <End Role="Lop" Type="Self.Lop" Multiplicity="0..1" />
+    <End Role="NguoiDung" Type="Self.NguoiDung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lop">
+        <PropertyRef Name="MaLop" />
+      </Principal>
+      <Dependent Role="NguoiDung">
+        <PropertyRef Name="Lop" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NCKHModelStoreContainer">
+    <EntitySet Name="DeTai" EntityType="Self.DeTai" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoaiDeTai" EntityType="Self.LoaiDeTai" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Lop" EntityType="Self.Lop" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NguoiDung" EntityType="Self.NguoiDung" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_DeTai_GiangVien" Association="Self.fk_DeTai_GiangVien">
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+      <End Role="DeTai" EntitySet="DeTai" />
+    </AssociationSet>
+    <AssociationSet Name="fk_DeTai_LoaiDeTai" Association="Self.fk_DeTai_LoaiDeTai">
+      <End Role="LoaiDeTai" EntitySet="LoaiDeTai" />
+      <End Role="DeTai" EntitySet="DeTai" />
+    </AssociationSet>
+    <AssociationSet Name="fk_DeTai_SinhVien" Association="Self.fk_DeTai_SinhVien">
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+      <End Role="DeTai" EntitySet="DeTai" />
+    </AssociationSet>
+    <AssociationSet Name="fk_SinhVien_Lop" Association="Self.fk_SinhVien_Lop">
+      <End Role="Lop" EntitySet="Lop" />
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
